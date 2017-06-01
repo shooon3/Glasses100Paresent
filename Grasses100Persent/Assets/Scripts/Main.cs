@@ -6,18 +6,28 @@ public class Main : MonoBehaviour {
 
     private bool ShotF;//角度変更中か否か判定フラグ
 
+    //各種スクリプト
+    Player Player;
+
 	void Update () {
+
+        //指を離すとセリフ発射
+        if (Input.GetButtonUp("Fire1")){
+            ShotF = false;
+            Player.Shot();
+        }
 
         //ロングタップ開始時角度変更を止める
         if (Input.GetButtonDown("Fire1")){
-            ShotF = !ShotF;
+            ShotF = true;
+            Player.MassageSet();
         }
 
         if (ShotF){
-            Debug.Log("発射するセリフの種類を決めています。");
+            Player.MassageChange();
         }
         else{
-            Debug.Log("セリフを発射する角度を変えています。");
+            Player.DegChanger();
         }
 	}
 }
