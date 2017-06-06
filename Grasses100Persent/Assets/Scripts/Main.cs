@@ -7,7 +7,7 @@ public class Main : MonoBehaviour {
     private bool ShotF;//角度変更中か否か判定フラグ
 
     //各種スクリプト
-    Player Player;
+    public Player Player;
 
 	void Update () {
 
