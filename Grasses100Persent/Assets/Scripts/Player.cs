@@ -5,14 +5,10 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     //メッセージ変更用変数
-    private float ShotPow;//セリフ変更判定用変数
+    public float ShotPow;//セリフ変更判定用変数
     private float AddPow;//判定用変数変化量
-    private float SmolerPow;//判定：ちいさくなーれ
-    private float BiggerPow;//判定：おおきくなーれ
-
-    private string[] MassageText = { "ちいさくなーれ", "こわれろー", "おおきくなーれ" };
-    private string ShotMassageText;//発射するメッセージ
-
+    private float SmolerPow = 30;//判定：ちいさくなーれ
+    private float BiggerPow = 60;//判定：おおきくなーれ
 
     //発射角
     private float ShotDeg;//発射角
@@ -26,10 +22,6 @@ public class Player : MonoBehaviour {
     //ゲームオブジェクト
     public GameObject MassagePre;//セリフプレファブ
     private GameObject Massage;//セリフ
-
-    public Sprite SmollerMassage;//ちいさくなーれ
-    public Sprite BreakMassge;//こわれろー
-    public Sprite BiggerMassage;//おおきくなーれ
 
     //発射角変更メソッド
     public void DegChanger(){
@@ -61,22 +53,21 @@ public class Player : MonoBehaviour {
 
     //セリフ変更メソッド
     public void MassageChange(){
+        //ShotPowの範囲は0～100
+        if (ShotPow <= 0 || ShotPow >= 100){
+            AddPow = -AddPow;
+        }
+
         ShotPow += AddPow;//パワー加算
 
         //ShotPowの値でメッセージ変更
-        int index = 2;
-        if(ShotPow < SmolerPow){//基準値以下
-            index = 1;
+        Massage.GetComponent<MassageStatus>().Janle = MassageStatus.PMJanle.Berak;
+        if (ShotPow < SmolerPow){//基準値以下
+            Massage.GetComponent<MassageStatus>().Janle = MassageStatus.PMJanle.Smoler;
         }
         else if(ShotPow > BiggerPow){//基準値以上
-            index = 3;
+            Massage.GetComponent<MassageStatus>().Janle = MassageStatus.PMJanle.Bigger;
         }
-        //ShotMassageText = MassageText[index];
-        //現在のセリフの種類によって大きさを変更
-        //現在のセリフの種類によってテキストを変更
-
-        Debug.Log("セリフを変更しています。");
-        Debug.Log(string.Format("発射するセリフ：{0}", ShotMassageText));
     }
 
     //セリフ発射メソッド
